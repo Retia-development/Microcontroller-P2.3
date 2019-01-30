@@ -1,9 +1,3 @@
-/*
- * opdrachtenWeek1.c
- *
- * Created: 30/01/2019 10:26:22
- * Author : Tim
- */ 
 #define F_CPU 8000000UL
 #include <avr/io.h>
 #include <util/delay.h>
@@ -49,6 +43,21 @@ void B2(){
 		wait(200);
 	}
 	
+}
+
+void B3(){
+	DDRD |= BIT(7);			// alleen pin 7 is output
+	PORTC &= ~BIT(0);		// alleen pin 0 is input
+	while(1)
+	{
+		if(PINC == BIT(0))
+		{
+			PORTD |= BIT(7);
+			wait(500);
+			PORTD &= ~BIT(7);
+			wait(500);
+		}
+	}
 }
 
 void B4(){
