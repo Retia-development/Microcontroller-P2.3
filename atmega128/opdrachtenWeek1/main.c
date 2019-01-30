@@ -129,29 +129,29 @@ void setCharliePlexingLed(int lednr)
 	switch(lednr)
 	{
 		case 1: //0 aan, 1 uit, 2 tri-state
-		PORTC = 0b00000001;
-		DDRC = 0b11111011;
-		break;
+			PORTC = 0b00000001;
+			DDRC = 0b11111011;
+			break;
 		case 2:
-		PORTC = 0b00000010;
-		DDRC = 0b11111011;
-		break;
+			PORTC = 0b00000010;
+			DDRC = 0b11111011;
+			break;
 		case 3:
-		PORTC = 0b00000010;
-		DDRC = 0b11111110;
-		break;
+			PORTC = 0b00000010;
+			DDRC = 0b11111110;
+			break;
 		case 4:
-		PORTC = 0b00000100;
-		DDRC = 0b11111110;
-		break;
+			PORTC = 0b00000100;
+			DDRC = 0b11111110;
+			break;
 		case 5:
-		PORTC = 0b00000100;
-		DDRC = 0b11111101;
-		break;
+			PORTC = 0b00000100;
+			DDRC = 0b11111101;
+			break;
 		case 6:
-		PORTC = 0b00000001;
-		DDRC = 0b11111101;
-		break;
+			PORTC = 0b00000001;
+			DDRC = 0b11111101;
+			break;
 	}
 }
 
