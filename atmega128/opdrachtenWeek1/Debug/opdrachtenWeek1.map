@@ -12,9 +12,13 @@ Discarded input sections
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
+ .text.setCharliePlexingLed
+                0x00000000       0x5e main.o
  .text.B22      0x00000000       0x20 main.o
  .text.B2       0x00000000       0x2e main.o
+ .text.B3       0x00000000       0x20 main.o
  .text.B4       0x00000000       0x44 main.o
+ .text.b7       0x00000000       0x26 main.o
  .text.GolvendeLichtjes
                 0x00000000      0x1d8 main.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
@@ -392,42 +396,42 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0x50
+.debug_aranges  0x00000000       0x68
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x50 main.o
+                0x00000000       0x68 main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xb9e
+.debug_info     0x00000000      0xcb5
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x780 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega128/avr51/crtatmega128.o
- .debug_info    0x00000780      0x41e main.o
+ .debug_info    0x00000780      0x535 main.o
 
-.debug_abbrev   0x00000000      0x920
+.debug_abbrev   0x00000000      0x93c
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x718 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega128/avr51/crtatmega128.o
- .debug_abbrev  0x00000718      0x208 main.o
+ .debug_abbrev  0x00000718      0x224 main.o
 
-.debug_line     0x00000000      0x51d
+.debug_line     0x00000000      0x60b
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x169 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega128/avr51/crtatmega128.o
- .debug_line    0x00000169      0x3b4 main.o
+ .debug_line    0x00000169      0x4a2 main.o
 
-.debug_frame    0x00000000       0xa8
+.debug_frame    0x00000000       0xd8
  *(.debug_frame)
- .debug_frame   0x00000000       0xa8 main.o
+ .debug_frame   0x00000000       0xd8 main.o
 
-.debug_str      0x00000000      0x49c
+.debug_str      0x00000000      0x48a
  *(.debug_str)
  .debug_str     0x00000000      0x27d C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega128/avr51/crtatmega128.o
- .debug_str     0x0000027d      0x21f main.o
-                                0x253 (size before relaxing)
+ .debug_str     0x0000027d      0x20d main.o
+                                0x246 (size before relaxing)
 
-.debug_loc      0x00000000      0x1d6
+.debug_loc      0x00000000      0x2bd
  *(.debug_loc)
- .debug_loc     0x00000000      0x1d6 main.o
+ .debug_loc     0x00000000      0x2bd main.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -447,9 +451,9 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x58
+.debug_ranges   0x00000000       0x70
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x58 main.o
+ .debug_ranges  0x00000000       0x70 main.o
 
 .debug_macro
  *(.debug_macro)
