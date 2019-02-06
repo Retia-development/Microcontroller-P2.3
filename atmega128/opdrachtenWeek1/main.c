@@ -5,7 +5,7 @@
 
 int main(void)
 {
-	B5();
+	B7();
 	return 1;
 }
 
@@ -124,34 +124,72 @@ void B5(){
 	}
 }
 
+void B6()
+{
+	DDRD |= BIT(7);
+	PORTC &= ~BIT(0);
+	int delay = 1000;
+	int pressed = 1;
+	int cycle = 0;
+	
+	while(1)
+	{
+		if(PINC == BIT(0) && pressed)
+		{
+			pressed = 0;
+			if (delay == 1000)
+			{
+				delay = 250;
+			}
+			else
+			{
+				delay = 1000;
+			}
+		}
+		
+		if(PINC != BIT(0)){
+			pressed = 1;
+		}
+		
+		if (cycle >= delay)
+		{
+			PORTD ^= BIT(7);
+			cycle = 0;
+		}
+		
+		cycle++;
+		wait(1);
+	}
+}
+
 void setCharliePlexingLed(int lednr)
 {
 	switch(lednr)
 	{
 		case 1: //0 aan, 1 uit, 2 tri-state
-			PORTC = 0b00000001;
-			DDRC = 0b11111011;
-			break;
+		PORTC = 0b00000001;
+		DDRC = 0b11111011;
+		break;
 		case 2:
-			PORTC = 0b00000010;
-			DDRC = 0b11111011;
-			break;
+		PORTC = 0b00000010;
+		DDRC = 0b11111011;
+		break;
 		case 3:
-			PORTC = 0b00000010;
-			DDRC = 0b11111110;
-			break;
+		PORTC = 0b00000010;
+		DDRC = 0b11111110;
+		break;
 		case 4:
-			PORTC = 0b00000100;
-			DDRC = 0b11111110;
-			break;
+		PORTC = 0b00000100;
+		DDRC = 0b11111110;
+		break;
 		case 5:
-			PORTC = 0b00000100;
-			DDRC = 0b11111101;
-			break;
+		PORTC = 0b00000100;
+		DDRC = 0b11111101;
+		break;
 		case 6:
-			PORTC = 0b00000001;
-			DDRC = 0b11111101;
-			break;
+		PORTC = 0b00000001;
+		DDRC = 0b11111101;
+		break;
 	}
 }
 
