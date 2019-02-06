@@ -5,6 +5,11 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+void op4();
+void op2();
+void intnul2();
+void inteen2();
+void wait( int ms );
 
 int main( void )
 {
@@ -12,8 +17,10 @@ int main( void )
 	DDRD = 0xF0;
 
 	EICRA |= 0x0B;			
-	EIMSK |= 0x03;			
-	op2();
+	EIMSK |= 0x03;	
+			
+	op4();
+	
 	sei();				
 
 	while (1)
@@ -27,32 +34,74 @@ int main( void )
 
 ISR( INT0_vect )
 {
-	inteen();
+	inteen2();
     //PORTD |= (1<<5);		
 }
 
 ISR( INT1_vect )
 {
-	intnul();
+	intnul2();
 	
     //PORTD &= ~(1<<5);		
 }
+//Op4>
+void op4()
+{
+	
+	typedef struct {
+		unsigned char data;
+		unsigned int delay ;
+	} PATTERN_STRUCT;
+	
+	PATTERN_STRUCT pattern[] = {
+		{0b00100001,80},
+		{0b00000011,80},
+		{0b01000010,40},
+		{0b01010000,40},
+		{0b00011000,80},
+		{0b00001100,80},
+		{0b01000100,40},
+		{0b01100000,40},
+
+			
+		{0x00, 0x00}
+	};
+	DDRA = 0b11111111;
+	while (1)
+	{
+		
+		int i = 0;
+		
+		while( pattern[i].delay != 0 ) {
+			PORTA = pattern[i].data;
+			
+			wait(pattern[i].delay);
+			
+			i++;
+		}
+	}
+}
+
+
+//<
+
+
 //Op2>
 void op2()
 {
-	PORTA = 0b11111111;
-	DDRA = 1<<3;
+	DDRA = 0b11111111;
+	PORTA = 1<<3;
 }
-void intnul()
+void intnul2()
 {
-	if(DDRA != 1<<7){
-		DDRA = DDRA << 1;
+	if(PORTA != 1<<7){
+		PORTA = PORTA << 1;
 	}
 }
-void inteen()
+void inteen2()
 {
-	if(DDRA != 1){
-		DDRA = DDRA >> 1;
+	if(PORTA != 1){
+		PORTA = PORTA >> 1;
 	}	
 }
 //<
