@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "opdrachtenWeek1", "opdrachtenWeek1\opdrachtenWeek1.cproj", "{2F2C4C74-0452-4428-9367-5858B5EBBA03}"
 EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "opdrachtenWeek2", "opdrachtenWeek2\opdrachtenWeek2.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "opdrachtenWeek2", "GccApplication1\opdrachtenWeek2.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
