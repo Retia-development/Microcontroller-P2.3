@@ -64,32 +64,32 @@ Version :    	DMK, Initial code
     PORTD &= ~(1<<5);		
 }
 
-/******************************************************************/
-int main( void )
-/* 
-short:			main() loop, entry point of executable
-inputs:			
-outputs:	
-notes:			Slow background task after init ISR
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	// Init I/O
-	DDRD = 0xF0;			// PORTD(7:4) output, PORTD(3:0) input	
-
-	// Init Interrupt hardware
-	EICRA |= 0x0B;			// INT1 falling edge, INT0 rising edge
-	EIMSK |= 0x03;			// Enable INT1 & INT0
-	
-	// Enable global interrupt system
-	//SREG = 0x80;			// Of direct via SREG of via wrapper
-	sei();				
-
-	while (1)
-	{
-		PORTD ^= (1<<7);	// Toggle PORTD.7
-		wait( 500 );								
-	}
-
-	return 1;
-}
+///******************************************************************/
+//int main( void )
+///* 
+//short:			main() loop, entry point of executable
+//inputs:			
+//outputs:	
+//notes:			Slow background task after init ISR
+//Version :    	DMK, Initial code
+//*******************************************************************/
+//{
+	//// Init I/O
+	//DDRD = 0xF0;			// PORTD(7:4) output, PORTD(3:0) input	
+//
+	//// Init Interrupt hardware
+	//EICRA |= 0x0B;			// INT1 falling edge, INT0 rising edge
+	//EIMSK |= 0x03;			// Enable INT1 & INT0
+	//
+	//// Enable global interrupt system
+	////SREG = 0x80;			// Of direct via SREG of via wrapper
+	//sei();				
+//
+	//while (1)
+	//{
+		//PORTD ^= (1<<7);	// Toggle PORTD.7
+		//wait( 500 );								
+	//}
+//
+	//return 1;
+//}
