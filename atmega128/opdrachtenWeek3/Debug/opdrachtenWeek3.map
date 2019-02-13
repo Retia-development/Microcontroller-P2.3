@@ -306,7 +306,7 @@ END GROUP
  *(.fini0)
                 0x00000164                _etext = .
 
-.data           0x00800100        0xe load address 0x00000164
+.data           0x00800100       0x10 load address 0x00000164
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -314,27 +314,26 @@ END GROUP
  *(.rodata)
  *(.rodata*)
  .rodata.str1.1
-                0x00800100        0xd main.o
+                0x00800100       0x10 main.o
  *(.gnu.linkonce.r*)
-                0x0080010e                . = ALIGN (0x2)
- *fill*         0x0080010d        0x1 
-                0x0080010e                _edata = .
-                0x0080010e                PROVIDE (__data_end, .)
+                0x00800110                . = ALIGN (0x2)
+                0x00800110                _edata = .
+                0x00800110                PROVIDE (__data_end, .)
 
-.bss            0x0080010e        0x0
+.bss            0x00800110        0x0
                 [!provide]                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  *(COMMON)
                 [!provide]                PROVIDE (__bss_end, .)
                 0x00000164                __data_load_start = LOADADDR (.data)
-                0x00000172                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000174                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080010e        0x0
+.noinit         0x00800110        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x0080010e                _end = .
+                0x00800110                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -412,10 +411,10 @@ END GROUP
  .debug_info    0x00000000      0x780 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega128/avr51/crtatmega128.o
  .debug_info    0x00000780      0x2cb main.o
 
-.debug_abbrev   0x00000000      0x87d
+.debug_abbrev   0x00000000      0x897
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x718 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega128/avr51/crtatmega128.o
- .debug_abbrev  0x00000718      0x165 main.o
+ .debug_abbrev  0x00000718      0x17f main.o
 
 .debug_line     0x00000000      0x3e1
  *(.debug_line .debug_line.* .debug_line_end)
@@ -426,11 +425,11 @@ END GROUP
  *(.debug_frame)
  .debug_frame   0x00000000       0x98 main.o
 
-.debug_str      0x00000000      0x483
+.debug_str      0x00000000      0x48f
  *(.debug_str)
  .debug_str     0x00000000      0x27d C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega128/avr51/crtatmega128.o
- .debug_str     0x0000027d      0x206 main.o
-                                0x23f (size before relaxing)
+ .debug_str     0x0000027d      0x212 main.o
+                                0x24b (size before relaxing)
 
 .debug_loc      0x00000000      0x1cb
  *(.debug_loc)

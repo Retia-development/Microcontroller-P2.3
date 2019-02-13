@@ -3,11 +3,11 @@ opdrachtenWeek3.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         0000000e  00800100  00000164  000001d8  2**0
+  0 .data         00000010  00800100  00000164  000001d8  2**0
                   CONTENTS, ALLOC, LOAD, DATA
   1 .text         00000164  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  000001e6  2**0
+  2 .comment      00000030  00000000  00000000  000001e8  2**0
                   CONTENTS, READONLY
   3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000218  2**2
                   CONTENTS, READONLY
@@ -15,17 +15,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   5 .debug_info   00000a4b  00000000  00000000  0000029c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000087d  00000000  00000000  00000ce7  2**0
+  6 .debug_abbrev 00000897  00000000  00000000  00000ce7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000003e1  00000000  00000000  00001564  2**0
+  7 .debug_line   000003e1  00000000  00000000  0000157e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000098  00000000  00000000  00001948  2**2
+  8 .debug_frame  00000098  00000000  00000000  00001960  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000483  00000000  00000000  000019e0  2**0
+  9 .debug_str    0000048f  00000000  00000000  000019f8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000001cb  00000000  00000000  00001e63  2**0
+ 10 .debug_loc    000001cb  00000000  00000000  00001e87  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000038  00000000  00000000  0000202e  2**0
+ 11 .debug_ranges 00000038  00000000  00000000  00002052  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -121,7 +121,7 @@ Disassembly of section .text:
   a6:	02 c0       	rjmp	.+4      	; 0xac <__do_copy_data+0x14>
   a8:	07 90       	elpm	r0, Z+
   aa:	0d 92       	st	X+, r0
-  ac:	ae 30       	cpi	r26, 0x0E	; 14
+  ac:	a0 31       	cpi	r26, 0x10	; 16
   ae:	b1 07       	cpc	r27, r17
   b0:	d9 f7       	brne	.-10     	; 0xa8 <__do_copy_data+0x10>
   b2:	43 d0       	rcall	.+134    	; 0x13a <main>
@@ -131,19 +131,27 @@ Disassembly of section .text:
   b6:	a4 cf       	rjmp	.-184    	; 0x0 <__vectors>
 
 000000b8 <lcd_strobe_lcd_e>:
-
-// Second nibble
-PORTC = (byte<<4);
-PORTC &= ~(1<<LCD_RS);
-lcd_strobe_lcd_e();
+	return 1;
 }
+
+void lcd_strobe_lcd_e(void)
+{
+PORTC |= (1<<LCD_E);	
   b8:	ab 9a       	sbi	0x15, 3	; 21
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
   ba:	8f ec       	ldi	r24, 0xCF	; 207
   bc:	97 e0       	ldi	r25, 0x07	; 7
   be:	01 97       	sbiw	r24, 0x01	; 1
   c0:	f1 f7       	brne	.-4      	; 0xbe <lcd_strobe_lcd_e+0x6>
   c2:	00 c0       	rjmp	.+0      	; 0xc4 <lcd_strobe_lcd_e+0xc>
   c4:	00 00       	nop
+_delay_ms(1);			
+PORTC &= ~(1<<LCD_E);  
   c6:	ab 98       	cbi	0x15, 3	; 21
   c8:	8f ec       	ldi	r24, 0xCF	; 207
   ca:	97 e0       	ldi	r25, 0x07	; 7
@@ -154,94 +162,145 @@ lcd_strobe_lcd_e();
   d4:	08 95       	ret
 
 000000d6 <init_4bits_mode>:
+_delay_ms(1);			
+}
+
+void init_4bits_mode(void)
+{
   d6:	cf 93       	push	r28
+
+DDRC = 0xFF;
   d8:	8f ef       	ldi	r24, 0xFF	; 255
   da:	84 bb       	out	0x14, r24	; 20
+PORTC = 0x00;
   dc:	15 ba       	out	0x15, r1	; 21
+
+PORTC = 0x20;
   de:	c0 e2       	ldi	r28, 0x20	; 32
   e0:	c5 bb       	out	0x15, r28	; 21
+lcd_strobe_lcd_e();
   e2:	ea df       	rcall	.-44     	; 0xb8 <lcd_strobe_lcd_e>
+
+PORTC = 0x20; 
+lcd_strobe_lcd_e();
   e4:	c5 bb       	out	0x15, r28	; 21
   e6:	e8 df       	rcall	.-48     	; 0xb8 <lcd_strobe_lcd_e>
+PORTC = 0x80;
   e8:	80 e8       	ldi	r24, 0x80	; 128
+lcd_strobe_lcd_e();
   ea:	85 bb       	out	0x15, r24	; 21
+
+PORTC = 0x00;  
   ec:	e5 df       	rcall	.-54     	; 0xb8 <lcd_strobe_lcd_e>
+lcd_strobe_lcd_e();
   ee:	15 ba       	out	0x15, r1	; 21
+PORTC = 0xF0;
   f0:	e3 df       	rcall	.-58     	; 0xb8 <lcd_strobe_lcd_e>
+lcd_strobe_lcd_e();
   f2:	80 ef       	ldi	r24, 0xF0	; 240
+
+PORTC = 0x00; 
   f4:	85 bb       	out	0x15, r24	; 21
+lcd_strobe_lcd_e();
   f6:	e0 df       	rcall	.-64     	; 0xb8 <lcd_strobe_lcd_e>
   f8:	15 ba       	out	0x15, r1	; 21
+PORTC = 0x60;
   fa:	de df       	rcall	.-68     	; 0xb8 <lcd_strobe_lcd_e>
   fc:	80 e6       	ldi	r24, 0x60	; 96
+lcd_strobe_lcd_e();
   fe:	85 bb       	out	0x15, r24	; 21
  100:	db df       	rcall	.-74     	; 0xb8 <lcd_strobe_lcd_e>
+
+}
  102:	cf 91       	pop	r28
  104:	08 95       	ret
 
 00000106 <lcd_write_data>:
+}
+}
+
+
+void lcd_write_data(unsigned char byte)
+{
  106:	cf 93       	push	r28
  108:	c8 2f       	mov	r28, r24
+
+PORTC = byte;
  10a:	85 bb       	out	0x15, r24	; 21
+PORTC |= (1<<LCD_RS);
  10c:	aa 9a       	sbi	0x15, 2	; 21
+lcd_strobe_lcd_e();
  10e:	d4 df       	rcall	.-88     	; 0xb8 <lcd_strobe_lcd_e>
+
+PORTC = (byte<<4);
  110:	c2 95       	swap	r28
  112:	c0 7f       	andi	r28, 0xF0	; 240
  114:	c5 bb       	out	0x15, r28	; 21
+PORTC |= (1<<LCD_RS);
+lcd_strobe_lcd_e();
  116:	aa 9a       	sbi	0x15, 2	; 21
  118:	cf df       	rcall	.-98     	; 0xb8 <lcd_strobe_lcd_e>
+}
  11a:	cf 91       	pop	r28
  11c:	08 95       	ret
 
 0000011e <lcd_write_string>:
+lcd_strobe_lcd_e();
+
+}
+
+void lcd_write_string(char *str)
+{
  11e:	cf 93       	push	r28
  120:	df 93       	push	r29
  122:	ec 01       	movw	r28, r24
+for(;*str; str++){
  124:	88 81       	ld	r24, Y
  126:	88 23       	and	r24, r24
  128:	29 f0       	breq	.+10     	; 0x134 <lcd_write_string+0x16>
  12a:	21 96       	adiw	r28, 0x01	; 1
+lcd_write_data(*str);
  12c:	ec df       	rcall	.-40     	; 0x106 <lcd_write_data>
+
+}
+
+void lcd_write_string(char *str)
+{
+for(;*str; str++){
  12e:	89 91       	ld	r24, Y+
  130:	81 11       	cpse	r24, r1
  132:	fc cf       	rjmp	.-8      	; 0x12c <lcd_write_string+0xe>
+lcd_write_data(*str);
+}
+}
  134:	df 91       	pop	r29
  136:	cf 91       	pop	r28
  138:	08 95       	ret
 
 0000013a <main>:
-notes:			Slow background task after init ISR
-Version :    	DMK, Initial code
-*******************************************************************/
+void lcd_write_data(unsigned char byte);
+void lcd_write_cmd(unsigned char byte);
+
+int main( void )
 {
-// Init I/O
-DDRD = 0xFF;			// PORTD(7) output, PORTD(6:0) input
+	DDRD = 0xFF;
  13a:	8f ef       	ldi	r24, 0xFF	; 255
  13c:	81 bb       	out	0x11, r24	; 17
 
-// Init LCD
-init_4bits_mode();
+	init_4bits_mode();
  13e:	cb df       	rcall	.-106    	; 0xd6 <init_4bits_mode>
 
-// Write sample string
-lcd_write_string("Yedi you are");
+	lcd_write_string("OwO you are not");
  140:	80 e0       	ldi	r24, 0x00	; 0
  142:	91 e0       	ldi	r25, 0x01	; 1
  144:	ec df       	rcall	.-40     	; 0x11e <lcd_write_string>
 
-// Loop forever
-while (1)
-{
-PORTD ^= (1<<7);	// Toggle PORTD.7
+	while (1)
+	{
+		PORTD ^= (1<<7);
  146:	82 b3       	in	r24, 0x12	; 18
  148:	80 58       	subi	r24, 0x80	; 128
  14a:	82 bb       	out	0x12, r24	; 18
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
-
-	__builtin_avr_delay_cycles(__ticks_dc);
  14c:	2f ef       	ldi	r18, 0xFF	; 255
  14e:	89 e6       	ldi	r24, 0x69	; 105
  150:	98 e1       	ldi	r25, 0x18	; 24
