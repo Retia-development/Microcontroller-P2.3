@@ -193,7 +193,7 @@ void setCharliePlexingLed(int lednr)
 	}
 }
 
-void b7()
+void B7()
 {
 	char i = 1;
 	while(1)

@@ -3,29 +3,29 @@ opdrachtenWeek1.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000176  2**0
+  0 .data         00000000  00800100  00800100  000001b2  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000122  00000000  00000000  00000054  2**1
+  1 .text         0000015e  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000176  2**0
+  2 .comment      00000030  00000000  00000000  000001b2  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001a8  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001e4  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000070  00000000  00000000  000001e4  2**0
+  4 .debug_aranges 00000070  00000000  00000000  00000220  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000d27  00000000  00000000  00000254  2**0
+  5 .debug_info   00000d27  00000000  00000000  00000290  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000965  00000000  00000000  00000f7b  2**0
+  6 .debug_abbrev 00000965  00000000  00000000  00000fb7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000006b4  00000000  00000000  000018e0  2**0
+  7 .debug_line   000006b4  00000000  00000000  0000191c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000e8  00000000  00000000  00001f94  2**2
+  8 .debug_frame  000000e8  00000000  00000000  00001fd0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000004a4  00000000  00000000  0000207c  2**0
+  9 .debug_str    000004b9  00000000  00000000  000020b8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000393  00000000  00000000  00002520  2**0
+ 10 .debug_loc    00000393  00000000  00000000  00002571  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000078  00000000  00000000  000028b3  2**0
+ 11 .debug_ranges 00000078  00000000  00000000  00002904  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -114,7 +114,7 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	e2 e2       	ldi	r30, 0x22	; 34
+  9e:	ee e5       	ldi	r30, 0x5E	; 94
   a0:	f1 e0       	ldi	r31, 0x01	; 1
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
@@ -124,122 +124,132 @@ Disassembly of section .text:
   ac:	a0 30       	cpi	r26, 0x00	; 0
   ae:	b1 07       	cpc	r27, r17
   b0:	d9 f7       	brne	.-10     	; 0xa8 <__do_copy_data+0x10>
-  b2:	34 d0       	rcall	.+104    	; 0x11c <main>
-  b4:	34 c0       	rjmp	.+104    	; 0x11e <_exit>
+  b2:	52 d0       	rcall	.+164    	; 0x158 <main>
+  b4:	52 c0       	rjmp	.+164    	; 0x15a <_exit>
 
 000000b6 <__bad_interrupt>:
   b6:	a4 cf       	rjmp	.-184    	; 0x0 <__vectors>
 
-000000b8 <wait>:
-		if(PINC == BIT(0))
-		{
-			PORTD |= BIT(7);
-			wait(500);
-			PORTD &= ~BIT(7);
-			wait(500);
-  b8:	18 16       	cp	r1, r24
-  ba:	19 06       	cpc	r1, r25
-  bc:	6c f4       	brge	.+26     	; 0xd8 <wait+0x20>
-  be:	20 e0       	ldi	r18, 0x00	; 0
-  c0:	30 e0       	ldi	r19, 0x00	; 0
-  c2:	ef ec       	ldi	r30, 0xCF	; 207
-  c4:	f7 e0       	ldi	r31, 0x07	; 7
-  c6:	31 97       	sbiw	r30, 0x01	; 1
-  c8:	f1 f7       	brne	.-4      	; 0xc6 <wait+0xe>
-  ca:	00 c0       	rjmp	.+0      	; 0xcc <wait+0x14>
-  cc:	00 00       	nop
-  ce:	2f 5f       	subi	r18, 0xFF	; 255
-  d0:	3f 4f       	sbci	r19, 0xFF	; 255
-  d2:	82 17       	cp	r24, r18
-  d4:	93 07       	cpc	r25, r19
-  d6:	a9 f7       	brne	.-22     	; 0xc2 <wait+0xa>
+000000b8 <setCharliePlexingLed>:
+			cycle = 0;
+		}
+		
+		cycle++;
+		wait(1);
+	}
+  b8:	83 30       	cpi	r24, 0x03	; 3
+  ba:	91 05       	cpc	r25, r1
+  bc:	c1 f0       	breq	.+48     	; 0xee <setCharliePlexingLed+0x36>
+  be:	34 f4       	brge	.+12     	; 0xcc <setCharliePlexingLed+0x14>
+  c0:	81 30       	cpi	r24, 0x01	; 1
+  c2:	91 05       	cpc	r25, r1
+  c4:	51 f0       	breq	.+20     	; 0xda <setCharliePlexingLed+0x22>
+  c6:	02 97       	sbiw	r24, 0x02	; 2
+  c8:	69 f0       	breq	.+26     	; 0xe4 <setCharliePlexingLed+0x2c>
+  ca:	08 95       	ret
+  cc:	85 30       	cpi	r24, 0x05	; 5
+  ce:	91 05       	cpc	r25, r1
+  d0:	c1 f0       	breq	.+48     	; 0x102 <setCharliePlexingLed+0x4a>
+  d2:	94 f0       	brlt	.+36     	; 0xf8 <setCharliePlexingLed+0x40>
+  d4:	06 97       	sbiw	r24, 0x06	; 6
+  d6:	d1 f0       	breq	.+52     	; 0x10c <setCharliePlexingLed+0x54>
   d8:	08 95       	ret
+  da:	81 e0       	ldi	r24, 0x01	; 1
+  dc:	85 bb       	out	0x15, r24	; 21
+  de:	8b ef       	ldi	r24, 0xFB	; 251
+  e0:	84 bb       	out	0x14, r24	; 20
+  e2:	08 95       	ret
+  e4:	82 e0       	ldi	r24, 0x02	; 2
+  e6:	85 bb       	out	0x15, r24	; 21
+  e8:	8b ef       	ldi	r24, 0xFB	; 251
+  ea:	84 bb       	out	0x14, r24	; 20
+  ec:	08 95       	ret
+  ee:	82 e0       	ldi	r24, 0x02	; 2
+  f0:	85 bb       	out	0x15, r24	; 21
+  f2:	8e ef       	ldi	r24, 0xFE	; 254
+  f4:	84 bb       	out	0x14, r24	; 20
+  f6:	08 95       	ret
+  f8:	84 e0       	ldi	r24, 0x04	; 4
+  fa:	85 bb       	out	0x15, r24	; 21
+  fc:	8e ef       	ldi	r24, 0xFE	; 254
+  fe:	84 bb       	out	0x14, r24	; 20
+ 100:	08 95       	ret
+ 102:	84 e0       	ldi	r24, 0x04	; 4
+ 104:	85 bb       	out	0x15, r24	; 21
+ 106:	8d ef       	ldi	r24, 0xFD	; 253
+ 108:	84 bb       	out	0x14, r24	; 20
+ 10a:	08 95       	ret
+ 10c:	81 e0       	ldi	r24, 0x01	; 1
+ 10e:	85 bb       	out	0x15, r24	; 21
+ 110:	8d ef       	ldi	r24, 0xFD	; 253
+ 112:	84 bb       	out	0x14, r24	; 20
+ 114:	08 95       	ret
 
-000000da <B4>:
-		}
-	}
-}
+00000116 <wait>:
+ 116:	18 16       	cp	r1, r24
+ 118:	19 06       	cpc	r1, r25
+ 11a:	6c f4       	brge	.+26     	; 0x136 <wait+0x20>
+ 11c:	20 e0       	ldi	r18, 0x00	; 0
+ 11e:	30 e0       	ldi	r19, 0x00	; 0
+ 120:	ef ec       	ldi	r30, 0xCF	; 207
+ 122:	f7 e0       	ldi	r31, 0x07	; 7
+ 124:	31 97       	sbiw	r30, 0x01	; 1
+ 126:	f1 f7       	brne	.-4      	; 0x124 <wait+0xe>
+ 128:	00 c0       	rjmp	.+0      	; 0x12a <wait+0x14>
+ 12a:	00 00       	nop
+ 12c:	2f 5f       	subi	r18, 0xFF	; 255
+ 12e:	3f 4f       	sbci	r19, 0xFF	; 255
+ 130:	82 17       	cp	r24, r18
+ 132:	93 07       	cpc	r25, r19
+ 134:	a9 f7       	brne	.-22     	; 0x120 <wait+0xa>
+ 136:	08 95       	ret
 
-void B4(){
-	DDRD = 0b11111111;
-  da:	8f ef       	ldi	r24, 0xFF	; 255
-  dc:	81 bb       	out	0x11, r24	; 17
-	
-	int light = 0x1;
-	int updown = 1;
-  de:	01 e0       	ldi	r16, 0x01	; 1
-  e0:	10 e0       	ldi	r17, 0x00	; 0
-}
+00000138 <B7>:
+void B7()
+{
+	char i = 1;
+	while(1)
+	{
+		setCharliePlexingLed(i);
+ 138:	81 e0       	ldi	r24, 0x01	; 1
+ 13a:	90 e0       	ldi	r25, 0x00	; 0
+ 13c:	bd df       	rcall	.-134    	; 0xb8 <setCharliePlexingLed>
+		i = i << 1;
+ 13e:	c2 e0       	ldi	r28, 0x02	; 2
+ 140:	01 c0       	rjmp	.+2      	; 0x144 <B7+0xc>
+		if(i == 0x40) i = i >> 6;
+ 142:	c1 e0       	ldi	r28, 0x01	; 1
+		wait(500);
+ 144:	84 ef       	ldi	r24, 0xF4	; 244
+ 146:	91 e0       	ldi	r25, 0x01	; 1
+ 148:	e6 df       	rcall	.-52     	; 0x116 <wait>
+void B7()
+{
+	char i = 1;
+	while(1)
+	{
+		setCharliePlexingLed(i);
+ 14a:	8c 2f       	mov	r24, r28
+ 14c:	90 e0       	ldi	r25, 0x00	; 0
+ 14e:	b4 df       	rcall	.-152    	; 0xb8 <setCharliePlexingLed>
+		i = i << 1;
+ 150:	cc 0f       	add	r28, r28
+		if(i == 0x40) i = i >> 6;
+ 152:	c0 34       	cpi	r28, 0x40	; 64
+ 154:	b9 f7       	brne	.-18     	; 0x144 <B7+0xc>
+ 156:	f5 cf       	rjmp	.-22     	; 0x142 <B7+0xa>
 
-void B4(){
-	DDRD = 0b11111111;
-	
-	int light = 0x1;
-  e2:	c1 e0       	ldi	r28, 0x01	; 1
-  e4:	d0 e0       	ldi	r29, 0x00	; 0
-		else{
-			light = light >> 1;
-		}
-		if (light >= 0x80 || light <= 0x1)
-		{
-			updown = !updown;
-  e6:	ff 24       	eor	r15, r15
-  e8:	f3 94       	inc	r15
-  ea:	e1 2c       	mov	r14, r1
-	DDRD = 0b11111111;
-	
-	int light = 0x1;
-	int updown = 1;
-	while(1){
-		PORTD = light;
-  ec:	c2 bb       	out	0x12, r28	; 18
-		if(updown){
-  ee:	01 15       	cp	r16, r1
-  f0:	11 05       	cpc	r17, r1
-  f2:	19 f0       	breq	.+6      	; 0xfa <B4+0x20>
-			light = light << 1;
-  f4:	cc 0f       	add	r28, r28
-  f6:	dd 1f       	adc	r29, r29
-  f8:	02 c0       	rjmp	.+4      	; 0xfe <B4+0x24>
-		}
-		else{
-			light = light >> 1;
-  fa:	d5 95       	asr	r29
-  fc:	c7 95       	ror	r28
-		}
-		if (light >= 0x80 || light <= 0x1)
-  fe:	ce 01       	movw	r24, r28
- 100:	02 97       	sbiw	r24, 0x02	; 2
- 102:	8e 37       	cpi	r24, 0x7E	; 126
- 104:	91 05       	cpc	r25, r1
- 106:	30 f0       	brcs	.+12     	; 0x114 <B4+0x3a>
-		{
-			updown = !updown;
- 108:	8f 2d       	mov	r24, r15
- 10a:	01 2b       	or	r16, r17
- 10c:	09 f0       	breq	.+2      	; 0x110 <B4+0x36>
- 10e:	8e 2d       	mov	r24, r14
- 110:	08 2f       	mov	r16, r24
- 112:	10 e0       	ldi	r17, 0x00	; 0
-		}
-		wait(50);
- 114:	82 e3       	ldi	r24, 0x32	; 50
- 116:	90 e0       	ldi	r25, 0x00	; 0
- 118:	cf df       	rcall	.-98     	; 0xb8 <wait>
-	}
- 11a:	e8 cf       	rjmp	.-48     	; 0xec <B4+0x12>
-
-0000011c <main>:
+00000158 <main>:
 #include <util/delay.h>
 #define BIT(x) (1<<(x))
 
 int main(void)
 {
-	B4();
- 11c:	de df       	rcall	.-68     	; 0xda <B4>
+	B7();
+ 158:	ef df       	rcall	.-34     	; 0x138 <B7>
 
-0000011e <_exit>:
- 11e:	f8 94       	cli
+0000015a <_exit>:
+ 15a:	f8 94       	cli
 
-00000120 <__stop_program>:
- 120:	ff cf       	rjmp	.-2      	; 0x120 <__stop_program>
+0000015c <__stop_program>:
+ 15c:	ff cf       	rjmp	.-2      	; 0x15c <__stop_program>
