@@ -24,7 +24,7 @@ void B1()
 	
 	lcd_command(0x01);
 	lcd_writeLine(c, 1);
-	lcd_setCursorPosition(26);
+	lcd_setCursorPosition(20);
 	lcd_writeChar('A');
 	
 }
