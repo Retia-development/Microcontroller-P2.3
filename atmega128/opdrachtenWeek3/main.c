@@ -96,3 +96,31 @@ lcd_strobe_lcd_e();
 
 
 
+/******************************************************************/
+//int main( void )
+///*
+//short:			main() loop, entry point of executable
+//inputs:
+//outputs:
+//notes:			Slow background task after init ISR
+//Version :    	DMK, Initial code
+//*******************************************************************/
+//{
+//// Init I/O
+//DDRD = 0xFF;			// PORTD(7) output, PORTD(6:0) input
+//
+//// Init LCD
+//init_4bits_mode();
+//
+//// Write sample string
+//lcd_write_string("Yedi you are");
+//
+//// Loop forever
+//while (1)
+//{
+//PORTD ^= (1<<7);	// Toggle PORTD.7
+//_delay_ms( 1000 );
+//}
+//
+//return 1;
+//}
