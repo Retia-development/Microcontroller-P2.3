@@ -486,8 +486,8 @@ void B1()
  270:	ce 01       	movw	r24, r28
  272:	01 96       	adiw	r24, 0x01	; 1
  274:	a1 df       	rcall	.-190    	; 0x1b8 <lcd_writeLine>
-	lcd_setCursorPosition(26);
- 276:	8a e1       	ldi	r24, 0x1A	; 26
+	lcd_setCursorPosition(20);
+ 276:	84 e1       	ldi	r24, 0x14	; 20
  278:	90 e0       	ldi	r25, 0x00	; 0
  27a:	95 df       	rcall	.-214    	; 0x1a6 <lcd_setCursorPosition>
 	lcd_writeChar('A');

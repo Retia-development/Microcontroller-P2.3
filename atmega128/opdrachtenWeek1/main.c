@@ -5,7 +5,7 @@
 
 int main(void)
 {
-	B7();
+	B3();
 	return 1;
 }
 
